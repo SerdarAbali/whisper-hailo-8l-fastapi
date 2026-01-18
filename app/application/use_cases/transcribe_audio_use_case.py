@@ -32,11 +32,14 @@ class TranscribeAudioUseCase:
             if chunk_offset < 0:
                 chunk_offset = 0
 
+            duration_seconds = len(sampled_audio) / 16000
+
             mel_spectrograms = preprocess(
                 sampled_audio,
                 is_nhwc=self.is_nhwc,
                 chunk_length=self.chunk_length,
-                chunk_offset=chunk_offset
+                chunk_offset=chunk_offset,
+                max_duration=duration_seconds
             )
 
             result = ""
