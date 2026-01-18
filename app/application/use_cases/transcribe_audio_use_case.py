@@ -44,7 +44,6 @@ class TranscribeAudioUseCase:
                 whisper_hailo.send_data(mel)
                 time.sleep(0.2)
                 result += clean_transcription(whisper_hailo.get_transcription())
-                break
 
             return result
         else:
