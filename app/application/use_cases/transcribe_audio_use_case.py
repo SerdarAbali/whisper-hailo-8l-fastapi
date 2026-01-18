@@ -28,11 +28,11 @@ class TranscribeAudioUseCase:
             sampled_audio = self.audio_utils.load_audio(audio_path)
 
             sampled_audio, start_time = improve_input_audio(sampled_audio, vad=True)
-            chunk_offset = start_time - 0.2
+            chunk_offset = (start_time or 0) - 0.2
             if chunk_offset < 0:
                 chunk_offset = 0
 
-            duration_seconds = len(sampled_audio) / 16000
+            duration_seconds = int(len(sampled_audio) / 16000)
 
             mel_spectrograms = preprocess(
                 sampled_audio,
@@ -47,7 +47,6 @@ class TranscribeAudioUseCase:
                 whisper_hailo.send_data(mel)
                 time.sleep(0.2)
                 result += clean_transcription(whisper_hailo.get_transcription())
-                
 
             return result
         else:
